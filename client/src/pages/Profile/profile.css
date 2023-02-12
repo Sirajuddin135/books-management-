@@ -1,5 +1,5 @@
-.profile_div img {
-    width: 100px;
+.card-profile-stats img {
+    max-width: 100px;
     border-radius: 50%;
     border: 1px solid #000;
 }
