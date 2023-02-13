@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './register.css';
 
-const Register = ({ handleSignup }) => {
+const Register = ({ handleLoginSignup }) => {
 
     // role options
     const role_options = [
@@ -45,7 +45,7 @@ const Register = ({ handleSignup }) => {
     }
 
     // set image
-    const setImageData = (e) => {
+    const setImageData = async (e) => {
         setImage(e.target.files[0]);
     }
 
@@ -56,14 +56,13 @@ const Register = ({ handleSignup }) => {
     }, [image]);
 
     // submit user data
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         const { fname, lname, email, mobile, location, password } = userData;
 
-        console.log(userData);
         setUserName(`${fname} ${lname}`);
-        handleSignup(userName);
+        handleLoginSignup(userName);
 
         if (fname.length < 4) {
             toast.error('First name length should be more than 4 characters !');
@@ -79,8 +78,8 @@ const Register = ({ handleSignup }) => {
             toast.error('Location is required !');
         } else if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/.test(password)) {
             toast.error('Password must be min 8 and max 16 chars long and contain at least one letter, one number, and one special character');
-        } else {
-            toast.success('Registration successful');
+            // } else {
+            //     toast.success('Registration successful');
         }
 
         // window.location.reload();

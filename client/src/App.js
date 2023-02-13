@@ -11,13 +11,9 @@ import Login from './pages/Register/Login';
 import { useState } from 'react';
 
 function App() {
-  const [userName, setUserName] = useState();
+  const [userName, setUserName] = useState('');
 
-  const handleLogin = (userName) => {
-    setUserName(userName);
-  }
-
-  const handleSignup = (userName) => {
+  const handleLoginSignup = (userName) => {
     setUserName(userName);
   }
 
@@ -27,8 +23,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/home1' element={<Home1 />} />
-        <Route path='/login' element={<Login handleLogin={handleLogin} />} />
-        <Route path='/register' element={<Register handleSignup={handleSignup} />} />
+        <Route path='/login' element={<Login handleLoginSignup={handleLoginSignup} />} />
+        <Route path='/register' element={<Register handleLoginSignup={handleLoginSignup} />} />
         <Route path='/edit/:id' element={<Edit />} />
         <Route path='/profile/:id' element={<Profile />} />
       </Routes>

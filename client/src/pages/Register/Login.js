@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const Login = ({ handleLogin }) => {
+const Login = ({ handleLoginSignup }) => {
+    const [loginData, setLoginData] = useState(JSON.parse(localStorage.getItem('loginData')) || []);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [userName, setUserName] = useState('');
 
+    useEffect(() => {
+        localStorage.setItem('loginData', JSON.stringify(loginData));
+    }, [loginData]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Perform login logic here
-        console.log(email, password);
+        setLoginData([...loginData, { email, password }]);
         setUserName(email);
-        handleLogin(userName);
+        handleLoginSignup(userName);
     };
 
     return (
