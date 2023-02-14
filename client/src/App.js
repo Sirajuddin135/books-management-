@@ -12,18 +12,23 @@ import { useState } from 'react';
 
 function App() {
   const [userName, setUserName] = useState('');
+  const [isLoggedIn, setLoggedIn] = useState(false);
 
   const handleLoginSignup = (userName) => {
     setUserName(userName);
   }
 
+  const handleLoggedIn = () => {
+    setLoggedIn(!isLoggedIn);
+  }
+
   return (
     <>
-      < Header userName={userName} />
+      < Header userName={userName} isLoggedIn={isLoggedIn} handleLoggedIn={handleLoggedIn} />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/home1' element={<Home1 />} />
-        <Route path='/login' element={<Login handleLoginSignup={handleLoginSignup} />} />
+        <Route path='/login' element={<Login handleLoginSignup={handleLoginSignup} handleLoggedIn={handleLoggedIn} />} />
         <Route path='/register' element={<Register handleLoginSignup={handleLoginSignup} />} />
         <Route path='/edit/:id' element={<Edit />} />
         <Route path='/profile/:id' element={<Profile />} />

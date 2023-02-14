@@ -7,8 +7,10 @@ import Select from 'react-select';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './register.css';
+import { json } from 'react-router-dom';
 
 const Register = ({ handleLoginSignup }) => {
+    const registerData = JSON.parse(localStorage.getItem('registerData')) || [];
 
     // role options
     const role_options = [
@@ -61,28 +63,34 @@ const Register = ({ handleLoginSignup }) => {
 
         const { fname, lname, email, mobile, location, password } = userData;
 
+        // if (fname.length < 4) {
+        //     toast.error('First name length should be more than 4 characters !');
+        // } else if (lname === '') {
+        //     toast.error('Last name is required !');
+        // } else if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        //     toast.error('Enter a valid email !');
+        // } else if (!/^[6-9][0-9]{9}$/.test(mobile)) {
+        //     toast.error('Invalid mobile number, it should start with 6, 7, 8 or 9 and have 10 digits');
+        // } else if (role === '') {
+        //     toast.error('Select a role !');
+        // } else if (location === '') {
+        //     toast.error('Location is required !');
+        // } else if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/.test(password)) {
+        //     toast.error('Password must be min 8 and max 16 chars long and contain at least one letter, one number, and one special character');
+        // } else {
+        //     toast.success('Registration successful');
+        // }
+
+        if (registerData.find(user => user.email === userData.email)) {
+            setUserName(`${fname} ${lname}`);
+            handleLoginSignup(userName);
+            return;
+        }
+        registerData.push(userData);
+
+        localStorage.setItem('registerData', JSON.stringify(registerData));
         setUserName(`${fname} ${lname}`);
         handleLoginSignup(userName);
-
-        if (fname.length < 4) {
-            toast.error('First name length should be more than 4 characters !');
-        } else if (lname === '') {
-            toast.error('Last name is required !');
-        } else if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-            toast.error('Enter a valid email !');
-        } else if (!/^[6-9][0-9]{9}$/.test(mobile)) {
-            toast.error('Invalid mobile number, it should start with 6, 7, 8 or 9 and have 10 digits');
-        } else if (role === '') {
-            toast.error('Select a role !');
-        } else if (location === '') {
-            toast.error('Location is required !');
-        } else if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/.test(password)) {
-            toast.error('Password must be min 8 and max 16 chars long and contain at least one letter, one number, and one special character');
-            // } else {
-            //     toast.success('Registration successful');
-        }
-
-        // window.location.reload();
     }
 
     return (
