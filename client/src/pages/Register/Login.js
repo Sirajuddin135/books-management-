@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { Button, Modal, Card, Table } from "react-bootstrap";
 
 
-const Login = () => {
+const Login = ({ handleLoginSignup, handleLoggedIn }) => {
     const [show, setShow] = useState(false);
     const [selectedName, setSelectedName] = useState(null);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [userName, setUserName] = useState('');
 
     const handleClose = () => setShow(false);
     const handleShow = (name) => {
@@ -51,17 +54,38 @@ const Login = () => {
         }
     ];
 
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+
+        // if (loginData.find(user => user.email === email)) {
+        //     setUserName(email);
+
+        //     handleLoggedIn();
+
+        //     handleLoginSignup(userName);
+        //     return;
+        // }
+        // setLoginData([...loginData, { email, password }]);
+        setUserName(email);
+
+        handleLoggedIn();
+
+        handleLoginSignup(userName);
+    };
+
     return (
         <>
-            {/* {users.map((user) => (
-                <div class="d-flex align-items-center justify-content-center form-group">
+            {/* {users.map((user) => ( */}
+            <div class="d-flex align-items-center justify-content-center form-group">
 
-                    <Button key={user.name} onClick={() => handleShow(user.name)}>
-                        {user.name}
-                    </Button>
-                </div>
+                <Button key={'Login'} onClick={() => handleShow('Login')}>
+                    {'Login'}
+                </Button>
+            </div>
             ))
-            } */}
+            {/* } */}
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>{selectedName}</Modal.Title>
@@ -75,7 +99,7 @@ const Login = () => {
                 <ListGroupItem>Email: {user.email}</ListGroupItem>
                 <ListGroupItem>Phone: {user.phone}</ListGroupItem>
             </ListGroup> */}
-                    <Table striped bordered hover>
+                    {/* <Table striped bordered hover>
                         <thead>
                             <tr>
                                 <th>Time</th>
@@ -120,7 +144,22 @@ const Login = () => {
                                 <td>05:10</td>
                             </tr>
                         </tbody>
-                    </Table>
+                    </Table> */}
+                    <form onSubmit={handleSubmit}>
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <button type="submit">Login</button>
+                    </form>
                 </Card.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
