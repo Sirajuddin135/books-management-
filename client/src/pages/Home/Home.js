@@ -48,14 +48,14 @@ const UserCard = ({ user }) => (
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    {/* <tr>
                         <td>Start Time</td>
                         <td>05:26</td>
                         <td>12:29</td>
                         <td>04:42</td>
                         <td>06:23</td>
                         <td>07:35</td>
-                    </tr>
+                    </tr> */}
                     <tr>
                         <td>Azaan</td>
                         <td>05:40</td>
@@ -72,14 +72,14 @@ const UserCard = ({ user }) => (
                         <td>06:30</td>
                         <td>08:00</td>
                     </tr>
-                    <tr>
+                    {/* <tr>
                         <td>End Time</td>
                         <td>06:39</td>
                         <td>04:30</td>
                         <td>06:08</td>
                         <td>07:20</td>
                         <td>05:10</td>
-                    </tr>
+                    </tr> */}
                 </tbody>
             </Table>
         </Card.Body>

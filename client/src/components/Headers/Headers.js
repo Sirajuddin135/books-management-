@@ -4,8 +4,21 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import Login from '../../pages/Register/Login';
+import LoginModal from '../../pages/Register/LoginModal';
+import { Button } from 'react-bootstrap';
 
 const Headers = ({ isAuthenticated }) => {
+
+    const [showLoginModal, setShowLoginModal] = useState(false);
+
+    const handleShowLoginModal = () => {
+        setShowLoginModal(true);
+    };
+
+    const handleHideLoginModal = () => {
+        setShowLoginModal(false);
+    };
 
     // const loginData = JSON.parse(localStorage.getItem('loginData')) || [];
     // const handleLogout = () => {
@@ -42,10 +55,19 @@ const Headers = ({ isAuthenticated }) => {
             <Link to='/home1'>Masjid</Link>
             {isAuthenticated ?
                 (<>
-                    <Link to='/home1'>Masjid</Link>
+                    <Link to='/home'>Home</Link>
+                    <Link to='/home'>My Masajid</Link>
+                    <Link to='/home'>Masajid</Link>
                 </>) : (<>
-                    <Link to='/login'>Login</Link>
-                    <Link to='/register'>Register</Link>
+                    {/* <Link to='/login'>Login</Link> */}
+                    <Link onClick={handleShowLoginModal}>Login</Link>
+                    {showLoginModal ? <Login onHide={handleHideLoginModal} /> : null}
+                    {/* <Link to='/register'>Register</Link> */}
+
+                    <Button variant="primary" onClick={handleShowLoginModal}>
+                        Login1
+                    </Button>
+                    {showLoginModal && <LoginModal onHide={handleHideLoginModal} />}
                 </>)
             }
         </nav>
