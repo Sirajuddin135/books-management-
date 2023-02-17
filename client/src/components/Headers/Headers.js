@@ -60,12 +60,12 @@ const Headers = ({ isAuthenticated }) => {
                     <Link to='/home'>Masajid</Link>
                 </>) : (<>
                     {/* <Link to='/login'>Login</Link> */}
-                    <Link onClick={handleShowLoginModal}>Login</Link>
-                    {showLoginModal ? <Login onHide={handleHideLoginModal} /> : null}
+                    {/* <Link onClick={handleShowLoginModal}>Login</Link>
+                    {showLoginModal ? <Login onHide={handleHideLoginModal} /> : null} */}
                     {/* <Link to='/register'>Register</Link> */}
 
                     <Button variant="primary" onClick={handleShowLoginModal}>
-                        Login1
+                        Login
                     </Button>
                     {showLoginModal && <LoginModal onHide={handleHideLoginModal} />}
                 </>)

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-function LoginForm(props) {
+function Login(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -113,4 +113,4 @@ function LoginForm(props) {
     // );
 }
 
-export default LoginForm;
+export default Login;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const Login = ({ handleLoginSignup, handleLoggedIn }) => {
+const Login1 = ({ handleLoginSignup, handleLoggedIn }) => {
     const [loginData, setLoginData] = useState(JSON.parse(localStorage.getItem('loginData')) || []);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -51,4 +51,4 @@ const Login = ({ handleLoginSignup, handleLoggedIn }) => {
     );
 };
 
-export default Login;
+export default Login1;
