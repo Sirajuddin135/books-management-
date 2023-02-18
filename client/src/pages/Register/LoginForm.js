@@ -1,8 +1,11 @@
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Modal } from 'react-bootstrap';
 
 function LoginForm(props) {
     return (
         <Form onSubmit={props.onSubmit}>
+            <Modal.Header closeButton>
+                <Modal.Title>Login</Modal.Title>
+            </Modal.Header>
             <Form.Group controlId="formEmail">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
@@ -26,7 +29,7 @@ function LoginForm(props) {
             </Button>
             <p>
                 Don't have an account?{' '}
-                <a href="/register" onClick={props.onShowRegisterForm}>
+                <a href="#" onClick={props.onShowRegisterForm}>
                     Register
                 </a>
             </p>

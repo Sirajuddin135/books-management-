@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import LoginForm from './LoginForm';
-import Register from './Register';
+import RegisterForm from './RegisterForm';
 
 function LoginModal(props) {
     const [email, setEmail] = useState('');
@@ -31,12 +31,12 @@ function LoginModal(props) {
 
     return (
         <Modal show={true} onHide={props.onHide}>
-            <Modal.Header closeButton>
+            {/* <Modal.Header closeButton>
                 <Modal.Title>Login</Modal.Title>
-            </Modal.Header>
+            </Modal.Header> */}
             <Modal.Body>
                 {showRegisterForm ? (
-                    <Register onHide={handleHideRegisterForm} />
+                    <RegisterForm onHide={handleHideRegisterForm} />
                 ) : (
                     <LoginForm
                         email={email}

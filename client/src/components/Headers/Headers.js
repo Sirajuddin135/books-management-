@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import Login from '../../pages/Register/Login';
 import LoginModal from '../../pages/Register/LoginModal';
 import { Button } from 'react-bootstrap';
 
