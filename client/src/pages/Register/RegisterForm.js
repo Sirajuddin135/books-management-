@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
 
 function RegisterForm(props) {
     const [firstName, setFirstName] = useState('');
@@ -9,6 +10,17 @@ function RegisterForm(props) {
     const [role, setRole] = useState('');
     const [mobile, setMobile] = useState('');
     const [location, setLocation] = useState('');
+    const [userName, setUserName] = useState('');
+    const registerData = JSON.parse(localStorage.getItem('registerData')) || [];
+
+    const [userData, setUserData] = useState({
+        fname: '',
+        lname: '',
+        email: '',
+        mobile: '',
+        location: '',
+        password: ''
+    });
 
     const handleFirstNameChange = (event) => {
         setFirstName(event.target.value);
@@ -38,22 +50,60 @@ function RegisterForm(props) {
         setLocation(event.target.value);
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Store the registration data in local storage
-        const data = {
-            firstName,
-            lastName,
-            email,
-            password,
-            role,
-            mobile,
-            location,
-        };
-        localStorage.setItem('registrationData', JSON.stringify(data));
-        alert('You have successfully registered!');
-        props.onSwitchToLogin();
-    };
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     // Store the registration data in local storage
+    //     const data = {
+    //         firstName,
+    //         lastName,
+    //         email,
+    //         password,
+    //         role,
+    //         mobile,
+    //         location,
+    //     };
+    //     localStorage.setItem('registrationData', JSON.stringify(data));
+    //     alert('You have successfully registered!');
+    //     props.onSwitchToLogin();
+    // };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const userData = { firstName, lastName, email, password, role, mobile, location };
+
+        if (firstName.length < 4) {
+            toast.error('First name length should be more than 4 characters !');
+        } else if (lastName === '') {
+            toast.error('Last name is required !');
+        } else if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+            toast.error('Enter a valid email !');
+        } else if (!/^[6-9][0-9]{9}$/.test(mobile)) {
+            toast.error('Invalid mobile number, it should start with 6, 7, 8 or 9 and have 10 digits');
+        } else if (role === '') {
+            toast.error('Select a role !');
+        } else if (location === '') {
+            toast.error('Location is required !');
+        } else if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/.test(password)) {
+            toast.error('Password must be min 8 and max 16 chars long and contain at least one letter, one number, and one special character');
+        } else {
+
+            if (registerData.find(user => user.email === userData.email || user.mobile === userData.mobile)) {
+                setUserName(`${firstName} ${lastName}`);
+                // handleLoginSignup(userName);
+                toast.error('User already registered');
+                return;
+            }
+
+            registerData.push(userData);
+
+            localStorage.setItem('registerData', JSON.stringify(registerData));
+            setUserName(`${firstName} ${lastName}`);
+            // handleLoginSignup(userName);
+            toast.success('Registration successful');
+            props.onSwitchToLogin();
+        }
+    }
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -138,6 +188,7 @@ function RegisterForm(props) {
                     Login
                 </a>
             </p>
+            <ToastContainer position='top-center' />
         </Form>
     );
 }

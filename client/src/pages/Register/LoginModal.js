@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
+import { ToastContainer, toast } from 'react-toastify';
 
 function LoginModal(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showRegisterForm, setShowRegisterForm] = useState(false);
+    const registerData = JSON.parse(localStorage.getItem('registerData')) || [];
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
@@ -19,6 +21,14 @@ function LoginModal(props) {
     const handleLogin = (event) => {
         event.preventDefault();
         // handle login logic
+        if (registerData.find(user => user.email === email && user.password === password)) {
+            // setUserName(`${firstName} ${lastName}`);
+            // handleLoginSignup(userName);
+            toast.success('Login successful');
+            return;
+        }
+
+        toast.error('Invalid details');
     };
 
     const handleShowRegisterForm = () => {
@@ -48,6 +58,7 @@ function LoginModal(props) {
                     />
                 )}
             </Modal.Body>
+            <ToastContainer position='top-center' />
         </Modal>
     );
 }
