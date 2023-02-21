@@ -6,7 +6,7 @@ function LoginForm(props) {
             <Modal.Header closeButton>
                 <Modal.Title>Login</Modal.Title>
             </Modal.Header>
-            <Form.Group controlId="formEmail">
+            <Form.Group>
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
                     type="email"
@@ -15,7 +15,7 @@ function LoginForm(props) {
                     onChange={props.onEmailChange}
                 />
             </Form.Group>
-            <Form.Group controlId="formPassword">
+            <Form.Group>
                 <Form.Label>Password</Form.Label>
                 <Form.Control
                     type="password"

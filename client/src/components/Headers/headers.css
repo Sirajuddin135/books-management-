@@ -1,0 +1,26 @@
+nav {
+    text-decoration: none;
+    padding: 10px;
+    display: flex;
+    color: white;
+    background-color: blue;
+    font-size: 30px;
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+    z-index: 1;
+}
+
+nav * {
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+}
+
+nav *:hover {
+    color: black;
+}
+
+.log {
+    cursor: pointer;
+}

@@ -20,15 +20,17 @@ function LoginModal(props) {
 
     const handleLogin = (event) => {
         event.preventDefault();
-        // handle login logic
-        if (registerData.find(user => user.email === email && user.password === password)) {
-            // setUserName(`${firstName} ${lastName}`);
-            // handleLoginSignup(userName);
-            toast.success('Login successful');
-            return;
-        }
 
-        toast.error('Invalid details');
+        if (registerData.find(user => user.email === email && user.password === password)) {
+            toast.success('Login successful');
+            localStorage.setItem('loginData', JSON.stringify({ email, password }));
+            localStorage.setItem('isAuthenticated', true);
+            window.location.href = '/';
+        } else if (registerData.find(user => user.email === email && user.password !== password)) {
+            toast.error('Invalid password');
+        } else {
+            toast.error('Please create an account!!!');
+        }
     };
 
     const handleShowRegisterForm = () => {

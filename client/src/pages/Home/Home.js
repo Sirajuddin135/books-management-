@@ -39,12 +39,13 @@ const UserCard = ({ user }) => (
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th>Time</th>
+                        <th>Namaz</th>
                         <th>Fajr</th>
                         <th>Zuhar</th>
                         <th>Asar</th>
                         <th>Maghrib</th>
                         <th>Ishaan</th>
+                        <th>Juma</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,6 +64,7 @@ const UserCard = ({ user }) => (
                         <td>04:45</td>
                         <td>06:25</td>
                         <td>07:45</td>
+                        <td>12:30</td>
                     </tr>
                     <tr>
                         <td>Jamaat</td>
@@ -71,6 +73,7 @@ const UserCard = ({ user }) => (
                         <td>05:00</td>
                         <td>06:30</td>
                         <td>08:00</td>
+                        <td>01:30</td>
                     </tr>
                     {/* <tr>
                         <td>End Time</td>
@@ -87,7 +90,7 @@ const UserCard = ({ user }) => (
 );
 
 const Home = () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
         {users.map((user) => (
             <div style={{ margin: '10px' }} key={user.id}>
                 <UserCard user={user} />
