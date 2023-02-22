@@ -31,7 +31,6 @@ const users = [
 const UserCard = ({ user }) => (
     <Card style={{ width: 'auto' }}>
         <Card.Body>
-            <Card>Some Message or Introduction of Site</Card>
             <Card.Title>{user.name}</Card.Title>
             {/* <ListGroup className="list-group-flush">
                 <ListGroupItem>Email: {user.email}</ListGroupItem>
@@ -92,12 +91,11 @@ const UserCard = ({ user }) => (
 
 const Home = () => (
     <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-        {/* {users.map((user) => ( */}
-        <div style={{ margin: '10px', padding: '100px', fontSize: '50px' }} key="user.id">
-            {/* <UserCard user={user} /> */}
-            <Card>Some Message or Introduction of Site</Card>
-        </div>
-        {/* ))} */}
+        {users.map((user) => (
+            <div style={{ margin: '10px' }} key={user.id}>
+                <UserCard user={user} />
+            </div>
+        ))}
     </div>
 );
 

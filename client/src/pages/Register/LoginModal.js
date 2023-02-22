@@ -18,6 +18,14 @@ function LoginModal(props) {
         setPassword(event.target.value);
     };
 
+    const handleShowRegisterForm = () => {
+        setShowRegisterForm(true);
+    };
+
+    const handleHideRegisterForm = () => {
+        setShowRegisterForm(false);
+    };
+
     const handleLogin = (event) => {
         event.preventDefault();
 
@@ -31,14 +39,6 @@ function LoginModal(props) {
         } else {
             toast.error('Please create an account!!!');
         }
-    };
-
-    const handleShowRegisterForm = () => {
-        setShowRegisterForm(true);
-    };
-
-    const handleHideRegisterForm = () => {
-        setShowRegisterForm(false);
     };
 
     return (

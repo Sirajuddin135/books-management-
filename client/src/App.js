@@ -2,10 +2,11 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Headers/Headers';
 import Home from './pages/Home/Home';
-import Home1 from './pages/Home/Home1';
+import Masajid1 from './pages/Home/Masajid1';
 import Edit from './pages/Edit/Edit';
-// import Register from './pages/Register/RegisterForm';
+import RegisterMasjid from './pages/Register/RegisterMasjid';
 import Profile from './pages/Profile/Profile';
+import Masajid from './pages/Content/Masajid';
 import { Routes, Route } from 'react-router-dom';
 // import Login from './pages/Register/LoginModal';
 // import { useState } from 'react';
@@ -19,7 +20,9 @@ function App() {
       < Header onAuthenticated={isAuthenticated} />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/home1' element={<Home1 />} />
+        <Route path='/registerMasjid' element={<RegisterMasjid />} />
+        <Route path='/masajid' element={<Masajid />} />
+        <Route path='/home1' element={<Masajid1 />} />
         <Route path='/edit/:id' element={<Edit />} />
         <Route path='/profile/:id' element={<Profile />} />
       </Routes>
