@@ -38,13 +38,23 @@ const RegisterMasjid = (props) => {
         e.preventDefault();
         const dataOfMasjid = { ...data };
 
-        if (registeredMasjidData.find(masjid => masjid.masjidName === masjidData.masjidName &&
-            masjid.streetName === masjidData.streetName && masjid.areaName === masjidData.areaName &&
-            masjid.cityName === masjidData.cityName)) {
+        // for (let i = 0; i < registeredMasjidData.length; i++) {
+        //     console.log(localStorage.getItem(registeredMasjidData.key(i)))
+        // }
 
-            toast.error('User already registered');
-            return;
-        }
+        // if (dataOfMasjid[masjid][email]) {
+        //     const masjid = dataOfMasjid[masjid];
+
+        //     console.log(masjid);
+        // }
+
+        // if (registeredMasjidData.find(masjid => masjid.masjidName === masjidData.masjidName &&
+        //     masjid.streetName === masjidData.streetName && masjid.areaName === masjidData.areaName &&
+        //     masjid.cityName === masjidData.cityName)) {
+
+        //     toast.error('User already registered');
+        //     return;
+        // }
 
         if (!dataOfMasjid[masjid]) {
             dataOfMasjid[masjid] = {};
