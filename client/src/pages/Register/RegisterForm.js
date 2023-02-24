@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import Select from 'react-select';
+import axios from 'axios';
 
 function RegisterForm(props) {
     // const [role, setRole] = useState('');
@@ -19,10 +20,9 @@ function RegisterForm(props) {
     ]
 
     let [userData, setUserData] = useState({
-        fname: '',
-        lname: '',
+        user_name: '',
         email: '',
-        mobile: '',
+        mobile_number: '',
         location: '',
         password: '',
         role: ''
@@ -54,35 +54,44 @@ function RegisterForm(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const { fname, lname, email, mobile, location, password, role } = userData;
+        const { user_name, email, mobile_number, location, password, role } = userData;
 
-        if (fname.length < 4) {
+        if (user_name.length < 4) {
             toast.error('First name length should be more than 4 characters !');
-        } else if (lname === '') {
-            toast.error('Last name is required !');
+            // } else if (lname === '') {
+            //     toast.error('Last name is required !');
         } else if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
             toast.error('Enter a valid email !');
         } else if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/.test(password)) {
             toast.error('Password must be min 8 and max 16 chars long and contain at least one letter, one number, and one special character');
         } else if (role === '') {
             toast.error('Select a role !');
-        } else if (!/^[6-9][0-9]{9}$/.test(mobile)) {
+        } else if (!/^[6-9][0-9]{9}$/.test(mobile_number)) {
             toast.error('Invalid mobile number, it should start with 6, 7, 8 or 9 and have 10 digits');
         } else if (location === '') {
             toast.error('Location is required !');
         } else {
 
-            if (registerData.find(user => user.email === userData.email || user.mobile === userData.mobile)) {
-                // setUserName(`${fname} ${lname}`);
-                toast.error('User already registered');
-                return;
-            }
+            // if (registerData.find(user => user.email === userData.email || user.mobile === userData.mobile)) {
+            //     toast.error('User already registered');
+            //     return;
+            // }
 
-            registerData.push(userData);
-            localStorage.setItem('registerData', JSON.stringify(registerData));
-            // setUserName(`${fname} ${lname}`);
-            toast.success('Registration successful');
-            props.onHide();
+            axios.post('http://localhost:4000/post-user', userData)
+                .then(res => {
+                    console.log('User registered successfully: ', res.data);
+                    toast.success('Registration successful');
+                    props.onHide();
+                })
+                .catch(error => {
+                    console.error('Error: user already registered');
+                })
+
+            // registerData.push(userData);
+            // localStorage.setItem('registerData', JSON.stringify(registerData));
+            // toast.success('Registration successful');
+            // props.onHide();
+
         }
     }
 
@@ -92,18 +101,18 @@ function RegisterForm(props) {
                 <Modal.Title>Register</Modal.Title>
             </Modal.Header>
             <Form.Group>
-                <Form.Label>First Name</Form.Label>
+                <Form.Label>Name</Form.Label>
                 <Form.Control
                     type="text"
-                    id='fname'
-                    name='fname'
-                    placeholder="Enter first name"
-                    value={userData.fname}
+                    id='user_name'
+                    name='user_name'
+                    placeholder="Enter your name"
+                    value={userData.user_name}
                     onChange={setInputValue}
                 />
             </Form.Group>
 
-            <Form.Group>
+            {/* <Form.Group>
                 <Form.Label>Last Name</Form.Label>
                 <Form.Control
                     type="text"
@@ -113,7 +122,7 @@ function RegisterForm(props) {
                     value={userData.lname}
                     onChange={setInputValue}
                 />
-            </Form.Group>
+            </Form.Group> */}
 
             <Form.Group>
                 <Form.Label>Email address</Form.Label>
@@ -148,10 +157,10 @@ function RegisterForm(props) {
                 <Form.Label>Mobile Number</Form.Label>
                 <Form.Control
                     type="tel"
-                    id='mobile'
-                    name='mobile'
+                    id='mobile_number'
+                    name='mobile_number'
                     placeholder="Enter mobile number"
-                    value={userData.mobile}
+                    value={userData.mobile_number}
                     onChange={setInputValue}
                 />
             </Form.Group>
