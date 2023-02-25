@@ -9,6 +9,7 @@ const Headers = () => {
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [showMasjidModal, setShowMasjidModal] = useState(false);
     let isAuthenticated = JSON.parse(localStorage.getItem('isAuthenticated'));
+    const jwtToken = localStorage.getItem('jwtToken');
 
     const handleShowLoginModal = () => {
         setShowLoginModal(true);
@@ -30,7 +31,7 @@ const Headers = () => {
         <nav>
             <Link to='/'>Home</Link>
             <Link to='/masajid'>Masajid</Link>
-            {isAuthenticated ?
+            {jwtToken ?
                 (<>
                     <Link to='/myMasajid'>My Masajid</Link>
                     <Link to='/profile/1'>My Profile</Link>

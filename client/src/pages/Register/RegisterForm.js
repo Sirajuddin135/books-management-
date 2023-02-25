@@ -9,7 +9,7 @@ function RegisterForm(props) {
     // const [image, setImage] = useState('');
     // const [preview, setPreview] = useState('');
     // const [userName, setUserName] = useState('');
-    let registerData = JSON.parse(localStorage.getItem('registerData')) || [];
+    // let registerData = JSON.parse(localStorage.getItem('registerData')) || [];
 
     // role options
     const role_options = [
@@ -36,7 +36,6 @@ function RegisterForm(props) {
 
     // set role value
     const setRoleValue = (e) => {
-        // setRole(e.value);
         setUserData({ ...userData, 'role': e.value });
     }
 
@@ -71,27 +70,15 @@ function RegisterForm(props) {
         } else if (location === '') {
             toast.error('Location is required !');
         } else {
-
-            // if (registerData.find(user => user.email === userData.email || user.mobile === userData.mobile)) {
-            //     toast.error('User already registered');
-            //     return;
-            // }
-
-            axios.post('http://localhost:4000/post-user', userData)
+            axios.post('http://localhost:4000/api/signup', userData)
                 .then(res => {
-                    console.log('User registered successfully: ', res.data);
+                    // console.log('User registered successfully: ', res.data);
                     toast.success('Registration successful');
                     props.onHide();
                 })
                 .catch(error => {
-                    console.error('Error: user already registered');
+                    toast.error('User already registered');
                 })
-
-            // registerData.push(userData);
-            // localStorage.setItem('registerData', JSON.stringify(registerData));
-            // toast.success('Registration successful');
-            // props.onHide();
-
         }
     }
 

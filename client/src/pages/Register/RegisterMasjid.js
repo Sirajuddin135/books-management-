@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
@@ -20,15 +21,18 @@ const RegisterMasjid = (props) => {
     const registeredMasjidData = JSON.parse(localStorage.getItem('registeredMasjidData')) || [];
 
     const [masjidData, setMasjidData] = useState({
-        masjidName: '',
-        streetName: '',
-        areaName: '',
-        cityName: '',
-        stateName: '',
-        countryName: '',
-        locationName: ''
+        masjid_name: '',
+        street_name: '',
+        area: '',
+        city: '',
+        state: '',
+        country: '',
+        location: '',
+        registered_date: '',
+        updated_date: ''
     });
 
+    // set masjid data
     const setInputValue = (e) => {
         const { name, value } = e.target;
         setMasjidData({ ...masjidData, [name]: value });
@@ -36,7 +40,17 @@ const RegisterMasjid = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const dataOfMasjid = { ...data };
+        const { masjid_name, street_name, area, city, state, country, location, registered_date, updated_date } = masjidData;
+
+        axios.post('http://localhost:4000/api/masjid', masjidData)
+            .then(res => {
+                // console.log('User registered successfully: ', res.data);
+                toast.success('Masjid registered successfully.');
+                props.onHide();
+            })
+            .catch(error => {
+                toast.error('User already registered');
+            })
 
         // for (let i = 0; i < registeredMasjidData.length; i++) {
         //     console.log(localStorage.getItem(registeredMasjidData.key(i)))
@@ -56,19 +70,19 @@ const RegisterMasjid = (props) => {
         //     return;
         // }
 
-        if (!dataOfMasjid[masjid]) {
-            dataOfMasjid[masjid] = {};
-        }
+        // if (!dataOfMasjid[masjid]) {
+        //     dataOfMasjid[masjid] = {};
+        // }
 
-        if (!dataOfMasjid[masjid][email]) {
-            dataOfMasjid[masjid][email] = [];
-        }
+        // if (!dataOfMasjid[masjid][email]) {
+        //     dataOfMasjid[masjid][email] = [];
+        // }
 
-        dataOfMasjid[masjid][email].push(masjidData);
+        // dataOfMasjid[masjid][email].push(masjidData);
 
-        setData(dataOfMasjid);
+        // setData(dataOfMasjid);
 
-        localStorage.setItem('registeredMasjidData', JSON.stringify(dataOfMasjid));
+        // localStorage.setItem('registeredMasjidData', JSON.stringify(dataOfMasjid));
 
         // const { masjidName, streetName, areaName, cityName, stateName, countryName, locationName } = masjidData;
 
@@ -93,9 +107,9 @@ const RegisterMasjid = (props) => {
                         <Form.Label>Masjid Name</Form.Label>
                         <Form.Control
                             type="text"
-                            id='mname'
-                            name='masjidName'
-                            value={masjidData.masjidName}
+                            id='masjid_name'
+                            name='masjid_name'
+                            value={masjidData.masjid_name}
                             placeholder="Enter masjid name"
                             onChange={setInputValue}
                         />
@@ -104,9 +118,9 @@ const RegisterMasjid = (props) => {
                         <Form.Label>Street Name</Form.Label>
                         <Form.Control
                             type="text"
-                            id='sname'
-                            name='streetName'
-                            value={masjidData.streetName}
+                            id='street_name'
+                            name='street_name'
+                            value={masjidData.street_name}
                             placeholder="Enter street name"
                             onChange={setInputValue}
                         />
@@ -115,9 +129,9 @@ const RegisterMasjid = (props) => {
                         <Form.Label>Area</Form.Label>
                         <Form.Control
                             type="text"
-                            id='aname'
-                            name='areaName'
-                            value={masjidData.areaName}
+                            id='area'
+                            name='area'
+                            value={masjidData.area}
                             placeholder="Enter area name"
                             onChange={setInputValue}
                         />
@@ -126,9 +140,9 @@ const RegisterMasjid = (props) => {
                         <Form.Label>City</Form.Label>
                         <Form.Control
                             type="text"
-                            id='cname'
-                            name='cityName'
-                            value={masjidData.cityName}
+                            id='city'
+                            name='city'
+                            value={masjidData.city}
                             placeholder="Enter city name"
                             onChange={setInputValue}
                         />
@@ -137,9 +151,9 @@ const RegisterMasjid = (props) => {
                         <Form.Label>State</Form.Label>
                         <Form.Control
                             type="text"
-                            id='statename'
-                            name='stateName'
-                            value={masjidData.stateName}
+                            id='state'
+                            name='state'
+                            value={masjidData.state}
                             placeholder="Enter state name"
                             onChange={setInputValue}
                         />
@@ -148,9 +162,9 @@ const RegisterMasjid = (props) => {
                         <Form.Label>Country</Form.Label>
                         <Form.Control
                             type="text"
-                            id='countryname'
-                            name='countryName'
-                            value={masjidData.countryName}
+                            id='country'
+                            name='country'
+                            value={masjidData.country}
                             placeholder="Enter country name"
                             onChange={setInputValue}
                         />
@@ -159,9 +173,9 @@ const RegisterMasjid = (props) => {
                         <Form.Label>Masjid Location</Form.Label>
                         <Form.Control
                             type="text"
-                            id='locationname'
-                            name='locationName'
-                            value={masjidData.locationName}
+                            id='location'
+                            name='location'
+                            value={masjidData.location}
                             placeholder="Enter location name"
                             onChange={setInputValue}
                         />
