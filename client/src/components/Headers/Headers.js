@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import LoginModal from '../../pages/Register/LoginModal';
 import RegisterMasjid from '../../pages/Register/RegisterMasjid';
-// import { Button } from 'react-bootstrap';
 import './headers.css';
 
 const Headers = () => {
@@ -35,13 +34,13 @@ const Headers = () => {
                 (<>
                     <Link to='/myMasajid'>My Masajid</Link>
                     <Link to='/profile/1'>My Profile</Link>
-                    {/* <Link to='/registerMasjid' onClick={handleMasjidRegisterForm}>Add Masjid</Link> */}
                     <>
                         <a className='log' variant="primary" onClick={handleShowMasjidModal}>
                             Add Masjid
                         </a>
                         {showMasjidModal && <RegisterMasjid onHide={handleHideMasjidModal} />}
                     </>
+
                 </>) : (<>
                     <a className='log' variant="primary" onClick={handleShowLoginModal}>
                         Login

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Modal, Card, Table } from "react-bootstrap";
 import './home.css';
 
-const Home1 = () => {
+const Masajid1 = () => {
     const [show, setShow] = useState(false);
     const [selectedName, setSelectedName] = useState(null);
 
@@ -132,4 +132,4 @@ const Home1 = () => {
     );
 };
 
-export default Home1;
+export default Masajid1;

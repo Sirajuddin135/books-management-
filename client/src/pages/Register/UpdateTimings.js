@@ -3,11 +3,13 @@ import { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
-const RegisterMasjid = (props) => {
+const UpdateTimings = (props) => {
     const userData = JSON.parse(localStorage.getItem('userData')) || [];
 
+    console.log(props.masjidData);
+
     const [masjidData, setMasjidData] = useState({
-        masjid_name: '',
+        masjid_name: "Madinah",
         street_name: '',
         area: '',
         city: '',
@@ -132,4 +134,4 @@ const RegisterMasjid = (props) => {
     )
 }
 
-export default RegisterMasjid;
+export default UpdateTimings;

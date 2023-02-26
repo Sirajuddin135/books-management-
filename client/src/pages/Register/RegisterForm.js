@@ -5,11 +5,6 @@ import Select from 'react-select';
 import axios from 'axios';
 
 function RegisterForm(props) {
-    // const [role, setRole] = useState('');
-    // const [image, setImage] = useState('');
-    // const [preview, setPreview] = useState('');
-    // const [userName, setUserName] = useState('');
-    // let registerData = JSON.parse(localStorage.getItem('registerData')) || [];
 
     // role options
     const role_options = [
@@ -17,7 +12,7 @@ function RegisterForm(props) {
         { value: 'Muazzin', label: 'Muazzin' },
         { value: 'Committee Member', label: 'Committee Member' },
         { value: 'Musalli', label: 'Musalli' }
-    ]
+    ];
 
     let [userData, setUserData] = useState({
         user_name: '',
@@ -57,8 +52,6 @@ function RegisterForm(props) {
 
         if (user_name.length < 4) {
             toast.error('First name length should be more than 4 characters !');
-            // } else if (lname === '') {
-            //     toast.error('Last name is required !');
         } else if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
             toast.error('Enter a valid email !');
         } else if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/.test(password)) {
@@ -72,7 +65,6 @@ function RegisterForm(props) {
         } else {
             axios.post('http://localhost:4000/api/signup', userData)
                 .then(res => {
-                    // console.log('User registered successfully: ', res.data);
                     toast.success('Registration successful');
                     props.onHide();
                 })
@@ -98,19 +90,6 @@ function RegisterForm(props) {
                     onChange={setInputValue}
                 />
             </Form.Group>
-
-            {/* <Form.Group>
-                <Form.Label>Last Name</Form.Label>
-                <Form.Control
-                    type="text"
-                    id='lname'
-                    name='lname'
-                    placeholder="Enter last name"
-                    value={userData.lname}
-                    onChange={setInputValue}
-                />
-            </Form.Group> */}
-
             <Form.Group>
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
@@ -122,7 +101,6 @@ function RegisterForm(props) {
                     onChange={setInputValue}
                 />
             </Form.Group>
-
             <Form.Group>
                 <Form.Label>Password</Form.Label>
                 <Form.Control
@@ -134,12 +112,10 @@ function RegisterForm(props) {
                     onChange={setInputValue}
                 />
             </Form.Group>
-
             <Form.Group>
                 <Form.Label>Role</Form.Label>
                 <Select options={role_options} onChange={setRoleValue} />
             </Form.Group>
-
             <Form.Group>
                 <Form.Label>Mobile Number</Form.Label>
                 <Form.Control
@@ -151,7 +127,6 @@ function RegisterForm(props) {
                     onChange={setInputValue}
                 />
             </Form.Group>
-
             <Form.Group>
                 <Form.Label>Location</Form.Label>
                 <Form.Control
@@ -163,13 +138,12 @@ function RegisterForm(props) {
                     onChange={setInputValue}
                 />
             </Form.Group>
-
             <Button variant="primary" type="submit">
                 Register
             </Button>
             <p>
                 Don't have an account?{' '}
-                <a href="" onClick={props.onHide}>
+                <a href="#" onClick={props.onHide}>
                     Login
                 </a>
             </p>
