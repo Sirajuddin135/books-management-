@@ -34,6 +34,7 @@ const Headers = () => {
                 (<>
                     <Link to='/myMasajid'>My Masajid</Link>
                     <Link to='/profile/1'>My Profile</Link>
+                    <Link to='/eventTable'>Event Table</Link>
                     <>
                         <a className='log' variant="primary" onClick={handleShowMasjidModal}>
                             Add Masjid

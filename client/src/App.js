@@ -10,8 +10,9 @@ import Masajid from './pages/Content/Masajid';
 import { Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import MyMasajid from './pages/Content/MyMasajid';
+import MyMasajid from './pages/Content/MyMasajidNew';
 import UpdateTimings from './pages/Register/UpdateTimings';
+import EventTable from './pages/Content/EventTable';
 
 function App() {
   const [userData, setUserData] = useState([]);
@@ -45,6 +46,7 @@ function App() {
         <Route path='/myMasajid' element={<MyMasajid />} />
         <Route path='/masajid' element={<Masajid />} />
         <Route path='/edit/:id' element={<Edit />} />
+        <Route path='/eventTable' element={<EventTable />} />
         <Route path='/profile/:id' element={<Profile userData={userData} />} />
       </Routes>
     </>

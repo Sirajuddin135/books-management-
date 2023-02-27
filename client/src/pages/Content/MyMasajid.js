@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Card, Table } from 'react-bootstrap';
 import RegisterMasjid from '../Register/RegisterMasjid';
 import UpdateTimings from '../Register/UpdateTimings';
+import UpdateTimingsDD from '../Register/UpdateTimingsDD';
 
 const MyMasajid = () => {
     const [showMasjidModal, setShowMasjidModal] = useState(false);
@@ -42,21 +43,33 @@ const MyMasajid = () => {
                     <tbody>
                         <tr>
                             <td>Azaan</td>
-                            <td>05:40</td>
+                            <td><UpdateTimingsDD /></td>
+                            <td><UpdateTimingsDD /></td>
+                            <td><UpdateTimingsDD /></td>
+                            <td><UpdateTimingsDD /></td>
+                            <td><UpdateTimingsDD /></td>
+                            <td><UpdateTimingsDD /></td>
+                            {/* <td>05:40</td>
                             <td>01:00</td>
                             <td>04:45</td>
                             <td>06:25</td>
                             <td>07:45</td>
-                            <td>12:30</td>
+                            <td>12:30</td> */}
                         </tr>
                         <tr>
                             <td>Jamaat</td>
-                            <td>06:10</td>
+                            <td><UpdateTimingsDD /></td>
+                            <td><UpdateTimingsDD /></td>
+                            <td><UpdateTimingsDD /></td>
+                            <td><UpdateTimingsDD /></td>
+                            <td><UpdateTimingsDD /></td>
+                            <td><UpdateTimingsDD /></td>
+                            {/* <td>06:10</td>
                             <td>01:30</td>
                             <td>05:00</td>
                             <td>06:30</td>
                             <td>08:00</td>
-                            <td>01:30</td>
+                            <td>01:30</td> */}
                         </tr>
                     </tbody>
                 </Table>

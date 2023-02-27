@@ -4,6 +4,18 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 const UpdateTimings = (props) => {
+    const [hours, setHours] = useState(0);
+    const [minutes, setMinutes] = useState(0);
+
+    function handleHourChange(e) {
+        setHours(parseInt(e.target.value));
+    }
+
+    function handleMinuteChange(e) {
+        setMinutes(parseInt(e.target.value));
+    }
+
+
     const userData = JSON.parse(localStorage.getItem('userData')) || [];
 
     console.log(props.masjidData);
@@ -48,6 +60,12 @@ const UpdateTimings = (props) => {
             </Modal.Header>
             <Form onSubmit={handleSubmit}>
                 <Modal.Body>
+                    <label>Hours:</label>
+                    <input type="number" min="0" max="23" value={hours} onChange={handleHourChange} />
+                    <label>Minutes:</label>
+                    <input type="number" min="0" max="59" value={minutes} onChange={handleMinuteChange} />
+                    <p>Selected time: {hours.toString().padStart(2, "0")}:{minutes.toString().padStart(2, "0")}</p>
+
                     <Form.Group>
                         <Form.Label>Masjid Name</Form.Label>
                         <Form.Control
