@@ -1,7 +1,6 @@
+import React, { useEffect, useState } from 'react';
 
-import React, { useState } from 'react';
-
-const UpdateTimingsDD = () => {
+const UpdateTimingsDD = (props) => {
     const [selectedHour, setSelectedHour] = useState(0);
     const [selectedMinute, setSelectedMinute] = useState(0);
 
@@ -16,6 +15,12 @@ const UpdateTimingsDD = () => {
         setSelectedMinute(event.target.value);
     };
 
+    useEffect(() => {
+        if (selectedHour && selectedMinute) {
+            props.onChange(selectedHour, selectedMinute);
+        }
+    })
+
     return (
         <>
             <select id="hour" onChange={handleHourChange} value={selectedHour} style={{ width: '40px' }}>
@@ -27,7 +32,7 @@ const UpdateTimingsDD = () => {
                 ))}
             </select>
             <select id="minute" onChange={handleMinuteChange} value={selectedMinute} style={{ width: '40px' }}>
-                <option value="">Min</option>
+                <option value="">{selectedMinute}</option>
                 {minutes.map((minute) => (
                     <option key={minute} value={minute}>
                         {minute}

@@ -124,7 +124,7 @@ const RegisterMasjid = (props) => {
                         />
                     </Form.Group>
                     <Button variant="primary" type="submit" >
-                        Add
+                        Add Timings
                     </Button>
                 </Modal.Body>
             </Form>

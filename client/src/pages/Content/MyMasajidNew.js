@@ -7,15 +7,40 @@ import UpdateTimingsDD from '../Register/UpdateTimingsDD';
 import TimePicker from '../Register/UpdateTimingsDD';
 
 const MyMasajidNew = () => {
-    const [events, setEvents] = useState([
+
+    const previousEvents = [
         { id: 1, name: "Fajar", startTime: { hour: 8, minute: 0 }, endTime: { hour: 10, minute: 0 } },
         { id: 2, name: "Zuhar", startTime: { hour: 11, minute: 0 }, endTime: { hour: 13, minute: 0 } },
         { id: 3, name: "Asar", startTime: { hour: 14, minute: 0 }, endTime: { hour: 16, minute: 0 } },
         { id: 4, name: "Magrib", startTime: { hour: 17, minute: 0 }, endTime: { hour: 19, minute: 0 } },
         { id: 5, name: "Ishaan", startTime: { hour: 20, minute: 0 }, endTime: { hour: 22, minute: 0 } },
-    ]);
+    ];
+
+    useEffect(() => {
+        setEvents(previousEvents);
+        const userData = JSON.parse(localStorage.getItem('userData')) || [];
+        const user_id = userData.user_id;
+
+        const fetchMasjid = async () => {
+            try {
+                const data = await axios.get(`http://localhost:4000/api/masjidsByIds/${user_id}`);
+                const dataOfMasjid = data.data.data
+
+                setMasjidData(dataOfMasjid);
+
+            } catch (error) {
+                console.log(error.response);
+            }
+        }
+
+        fetchMasjid();
+    }, []);
+
+    const [events, setEvents] = useState([]);
 
     const handleEventTimeChange = (eventId, timeType, hour, minute) => {
+        console.log(eventId, timeType, hour, minute);
+
         const updatedEvents = events.map((event) => {
             if (event.id === eventId) {
                 const updatedTime = { hour, minute };
@@ -23,6 +48,7 @@ const MyMasajidNew = () => {
             }
             return event;
         });
+
         setEvents(updatedEvents);
     };
     const [showMasjidModal, setShowMasjidModal] = useState(false);
@@ -84,25 +110,6 @@ const MyMasajidNew = () => {
     // const userData = JSON.parse(localStorage.getItem('userData')) || [];
     const [masjidData, setMasjidData] = useState([]);
     // const user_id = userData.user_id;
-
-    useEffect(() => {
-        const userData = JSON.parse(localStorage.getItem('userData')) || [];
-        const user_id = userData.user_id;
-
-        const fetchMasjid = async () => {
-            try {
-                const data = await axios.get(`http://localhost:4000/api/masjidsByIds/${user_id}`);
-                const dataOfMasjid = data.data.data
-
-                setMasjidData(dataOfMasjid);
-
-            } catch (error) {
-                console.log(error.response);
-            }
-        }
-
-        fetchMasjid();
-    }, []);
 
     return (
         masjidData.length ? (

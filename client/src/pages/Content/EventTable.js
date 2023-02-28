@@ -1,60 +1,64 @@
-import React, { useState } from "react";
-import TimePicker from "../Register/UpdateTimingsDD";
+import React, { useState } from 'react';
 
-const EventTable = () => {
-    const [events, setEvents] = useState([
-        { id: 1, name: "Event 1", startTime: { hour: 8, minute: 0 }, endTime: { hour: 10, minute: 0 } },
-        { id: 2, name: "Event 2", startTime: { hour: 11, minute: 0 }, endTime: { hour: 13, minute: 0 } },
-        { id: 3, name: "Event 3", startTime: { hour: 14, minute: 0 }, endTime: { hour: 16, minute: 0 } },
-        { id: 4, name: "Event 4", startTime: { hour: 17, minute: 0 }, endTime: { hour: 19, minute: 0 } },
-        { id: 5, name: "Event 5", startTime: { hour: 20, minute: 0 }, endTime: { hour: 22, minute: 0 } },
-    ]);
+function EventTable() {
+    const [hour, setHour] = useState(0);
+    const [minute, setMinute] = useState(0);
+    const [isActive, setIsActive] = useState(false);
 
-    const handleEventTimeChange = (eventId, timeType, hour, minute) => {
-        const updatedEvents = events.map((event) => {
-            if (event.id === eventId) {
-                const updatedTime = { hour, minute };
-                return { ...event, [timeType]: updatedTime };
-            }
-            return event;
-        });
-        setEvents(updatedEvents);
+    const handleHourScroll = (event) => {
+        const delta = Math.max(-1, Math.min(1, event.deltaY));
+        setHour((prevHour) => prevHour + delta);
     };
+
+    const handleMinuteScroll = (event) => {
+        const delta = Math.max(-1, Math.min(1, event.deltaY));
+        setMinute((prevMinute) => prevMinute + delta);
+    };
+
+    const handleSetAlarm = () => {
+        setIsActive(true);
+    };
+
+    const handleStopAlarm = () => {
+        setIsActive(false);
+        setHour(0);
+        setMinute(0);
+    };
+
+    const padNumber = (number) => {
+        return number < 10 ? `0${number}` : `${number}`;
+    };
+
+    const formatTime = (hour, minute) => {
+        const formattedHour = padNumber(hour);
+        const formattedMinute = padNumber(minute);
+        return `${formattedHour}:${formattedMinute}`;
+    };
+
+    const currentTime = formatTime(new Date().getHours(), new Date().getMinutes());
 
     return (
         <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Event Name</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {events.map((event) => (
-                        <tr key={event.id}>
-                            <td>{event.name}</td>
-                            <td>
-                                <TimePicker
-                                    hour={event.startTime.hour}
-                                    minute={event.startTime.minute}
-                                    onChange={(hour, minute) => handleEventTimeChange(event.id, "startTime", hour, minute)}
-                                />
-                            </td>
-                            <td>
-                                <TimePicker
-                                    hour={event.endTime.hour}
-                                    minute={event.endTime.minute}
-                                    onChange={(hour, minute) => handleEventTimeChange(event.id, "endTime", hour, minute)}
-                                />
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <h2>Set Alarm</h2>
+            <div>
+                <label htmlFor="hour">Hour:</label>
+                <span onWheel={handleHourScroll}>{padNumber(hour)}</span>
+            </div>
+            <div>
+                <label htmlFor="minute">Minute:</label>
+                <span onWheel={handleMinuteScroll}>{padNumber(minute)}</span>
+            </div>
+            <button onClick={handleSetAlarm}>
+                Set Alarm for {formatTime(hour, minute)}
+            </button>
+            {isActive && (
+                <div>
+                    <p>Alarm set for {formatTime(hour, minute)}</p>
+                    <button onClick={handleStopAlarm}>Stop Alarm</button>
+                </div>
+            )}
         </div>
     );
-};
+}
 
 export default EventTable;
