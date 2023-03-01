@@ -28,6 +28,11 @@ const MyMasajidNew = () => {
 
                 setMasjidData(dataOfMasjid);
 
+                dataOfMasjid.map(async (masjid) => {
+                    const eventsData = await axios.get(`http://localhost:4000/api/masjidPrayerTimings/${masjid.masjid_id}`);
+
+                    console.log(eventsData);
+                })
             } catch (error) {
                 console.log(error.response);
             }
@@ -38,8 +43,8 @@ const MyMasajidNew = () => {
 
     const [events, setEvents] = useState([]);
 
-    const handleEventTimeChange = (eventId, timeType, hour, minute) => {
-        console.log(eventId, timeType, hour, minute);
+    const handleEventTimeChange = (eventId, timeType, hour, minute, masjid) => {
+        console.log(eventId, timeType, hour, minute, masjid);
 
         const updatedEvents = events.map((event) => {
             if (event.id === eventId) {
@@ -89,7 +94,7 @@ const MyMasajidNew = () => {
                                     <TimePicker
                                         hour={event.startTime.hour}
                                         minute={event.startTime.minute}
-                                        onChange={(hour, minute) => handleEventTimeChange(event.id, "startTime", hour, minute)}
+                                        onChange={(hour, minute) => handleEventTimeChange(event.id, "startTime", hour, minute, masjid)}
                                     />
                                 </td>
                                 <td>
@@ -112,7 +117,7 @@ const MyMasajidNew = () => {
     // const user_id = userData.user_id;
 
     return (
-        masjidData.length ? (
+        masjidData ? (
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                 {masjidData.map((masjid) => (
                     <div style={{ margin: '10px' }} key={masjid.masjid_id}>
