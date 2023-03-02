@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import TimePicker from '../Register/UpdateTimingsDD';
 
 const RegisterMasjid = (props) => {
     const userData = JSON.parse(localStorage.getItem('userData')) || [];
@@ -23,6 +24,9 @@ const RegisterMasjid = (props) => {
         const { name, value } = e.target;
         setMasjidData({ ...masjidData, [name]: value });
     }
+
+    const hours = Array.from(Array(24).keys()); // creates an array of hours from 0 to 23
+    const minutes = Array.from(Array(60).keys()); // creates an array of minutes from 0 to 59
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -122,6 +126,9 @@ const RegisterMasjid = (props) => {
                             placeholder="Enter location name"
                             onChange={setInputValue}
                         />
+                    </Form.Group>
+                    <Form.Group>
+
                     </Form.Group>
                     <Button variant="primary" type="submit" >
                         Add Timings

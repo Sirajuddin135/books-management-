@@ -2,36 +2,28 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Card, Table } from 'react-bootstrap';
 import RegisterMasjid from '../Register/RegisterMasjid';
-import UpdateTimings from '../Register/UpdateTimings';
-import UpdateTimingsDD from '../Register/UpdateTimingsDD';
 import TimePicker from '../Register/UpdateTimingsDD';
 
 const MyMasajidNew = () => {
-
-    const previousEvents = [
-        { id: 1, name: "Fajar", startTime: { hour: 8, minute: 0 }, endTime: { hour: 10, minute: 0 } },
-        { id: 2, name: "Zuhar", startTime: { hour: 11, minute: 0 }, endTime: { hour: 13, minute: 0 } },
-        { id: 3, name: "Asar", startTime: { hour: 14, minute: 0 }, endTime: { hour: 16, minute: 0 } },
-        { id: 4, name: "Magrib", startTime: { hour: 17, minute: 0 }, endTime: { hour: 19, minute: 0 } },
-        { id: 5, name: "Ishaan", startTime: { hour: 20, minute: 0 }, endTime: { hour: 22, minute: 0 } },
-    ];
+    const [events, setEvents] = useState([]);
+    const [masjidData, setMasjidData] = useState([]);
+    const [userId, setUserId] = useState();
 
     useEffect(() => {
-        setEvents(previousEvents);
         const userData = JSON.parse(localStorage.getItem('userData')) || [];
-        const user_id = userData.user_id;
+        setUserId(userData.user_id);
 
         const fetchMasjid = async () => {
             try {
-                const data = await axios.get(`http://localhost:4000/api/masjidsByIds/${user_id}`);
+                const data = await axios.get(`http://localhost:4000/api/masjidsByIds/${userId}`);
                 const dataOfMasjid = data.data.data
-
                 setMasjidData(dataOfMasjid);
 
                 dataOfMasjid.map(async (masjid) => {
-                    const eventsData = await axios.get(`http://localhost:4000/api/masjidPrayerTimings/${masjid.masjid_id}`);
-
-                    console.log(eventsData);
+                    const response = await axios.get(`http://localhost:4000/api/masjidPrayerTimings/${masjid.masjid_id}`);
+                    const eventsData = response.data.timings;
+                    // setEvents(events => [...events, ...eventsData]);
+                    setEvents(eventsData);
                 })
             } catch (error) {
                 console.log(error.response);
@@ -39,12 +31,10 @@ const MyMasajidNew = () => {
         }
 
         fetchMasjid();
-    }, []);
-
-    const [events, setEvents] = useState([]);
+    }, [userId]);
 
     const handleEventTimeChange = (eventId, timeType, hour, minute, masjid) => {
-        console.log(eventId, timeType, hour, minute, masjid);
+        // console.log(eventId, timeType, hour, minute, masjid);
 
         const updatedEvents = events.map((event) => {
             if (event.id === eventId) {
@@ -88,19 +78,19 @@ const MyMasajidNew = () => {
                     </thead>
                     <tbody>
                         {events.map((event) => (
-                            <tr key={event.id}>
-                                <th>{event.name}</th>
+                            <tr key={event.prayer_id}>
+                                <th>{event.prayer_name}</th>
                                 <td>
                                     <TimePicker
-                                        hour={event.startTime.hour}
-                                        minute={event.startTime.minute}
+                                        hour={event.azaan_time.split(":")[0]}
+                                        minute={event.azaan_time.split(":")[1]}
                                         onChange={(hour, minute) => handleEventTimeChange(event.id, "startTime", hour, minute, masjid)}
                                     />
                                 </td>
                                 <td>
                                     <TimePicker
-                                        hour={event.endTime.hour}
-                                        minute={event.endTime.minute}
+                                        hour={event.jamaat_time.split(":")[0]}
+                                        minute={event.jamaat_time.split(":")[1]}
                                         onChange={(hour, minute) => handleEventTimeChange(event.id, "endTime", hour, minute)}
                                     />
                                 </td>
@@ -111,10 +101,6 @@ const MyMasajidNew = () => {
             </Card.Body>
         </Card>
     );
-
-    // const userData = JSON.parse(localStorage.getItem('userData')) || [];
-    const [masjidData, setMasjidData] = useState([]);
-    // const user_id = userData.user_id;
 
     return (
         masjidData ? (

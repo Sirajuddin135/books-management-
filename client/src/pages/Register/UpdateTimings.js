@@ -41,6 +41,7 @@ const UpdateTimings = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // const { masjid_name, street_name, area, city, state, country, location, registered_date, updated_date } = masjidData;
+        console.log(masjidData);
 
         axios.post('http://localhost:4000/api/masjid', { masjidData, userData })
             .then(res => {
@@ -56,7 +57,7 @@ const UpdateTimings = (props) => {
     return (
         <Modal show={true} onHide={props.onHide} >
             <Modal.Header closeButton>
-                <Modal.Title>Add Masjid</Modal.Title>
+                <Modal.Title>Add Timings</Modal.Title>
             </Modal.Header>
             <Form onSubmit={handleSubmit}>
                 <Modal.Body>
