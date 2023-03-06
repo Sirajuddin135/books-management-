@@ -16,15 +16,18 @@ const MyMasajidNew = () => {
         const fetchMasjid = async () => {
             try {
                 const data = await axios.get(`http://localhost:4000/api/masjidsByIds/${userId}`);
-                const dataOfMasjid = data.data.data
+                const dataOfMasjid = data.data.data;
+                // console.log(data.data.data)
+                // console.log(data.data.events)
                 setMasjidData(dataOfMasjid);
+                setEvents(data.data.events);
 
-                dataOfMasjid.map(async (masjid) => {
-                    const response = await axios.get(`http://localhost:4000/api/masjidPrayerTimings/${masjid.masjid_id}`);
-                    const eventsData = response.data.timings;
-                    // setEvents(events => [...events, ...eventsData]);
-                    setEvents(eventsData);
-                })
+                // dataOfMasjid.map(async (masjid) => {
+                //     const response = await axios.get(`http://localhost:4000/api/masjidPrayerTimings/${masjid.masjid_id}`);
+                //     const eventsData = response.data.timings;
+                //     // setEvents(events => [...events, ...eventsData]);
+                //     setEvents(eventsData);
+                // })
             } catch (error) {
                 console.log(error.response);
             }
@@ -33,8 +36,11 @@ const MyMasajidNew = () => {
         fetchMasjid();
     }, [userId]);
 
+    // console.log(masjidData)
+    console.log(events[0])
+
     const handleEventTimeChange = (eventId, timeType, hour, minute, masjid) => {
-        // console.log(eventId, timeType, hour, minute, masjid);
+        console.log(eventId, timeType, hour, minute, masjid);
 
         const updatedEvents = events.map((event) => {
             if (event.id === eventId) {
@@ -56,7 +62,7 @@ const MyMasajidNew = () => {
         setShowMasjidModal(false);
     };
 
-    const UserCard = ({ masjid }) => (
+    const UserCard = ({ masjid, events }) => (
         <Card style={{ width: 'auto' }}>
             <Card.Body>
                 <Card.Title>
@@ -105,9 +111,9 @@ const MyMasajidNew = () => {
     return (
         masjidData ? (
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-                {masjidData.map((masjid) => (
+                {masjidData.map((masjid, index) => (
                     <div style={{ margin: '10px' }} key={masjid.masjid_id}>
-                        <UserCard masjid={masjid} />
+                        <UserCard masjid={masjid} events={events[index].timings} />
                     </div>
                 ))}
             </div>) : (<div style={{ margin: '10px', padding: '100px', fontSize: '50px' }} key="user.id">
