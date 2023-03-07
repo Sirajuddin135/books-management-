@@ -16,11 +16,11 @@ const UpdateTimingsDD = (props) => {
         setSelectedMinute(event.target.value);
     };
 
-    useEffect(() => {
-        // props.onChange(selectedHour, selectedMinute);
-        setSelectedHour(props.hour)
-        setSelectedMinute(props.minute)
-    }, []);
+    // useEffect(() => {
+    //     props.onChange(selectedHour, selectedMinute);
+    //     // setSelectedHour(props.hour)
+    //     // setSelectedMinute(props.minute)
+    // }, []);
 
     useEffect(() => {
         console.log(props.masjid)
