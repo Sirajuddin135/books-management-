@@ -1,11 +1,47 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Card, Table } from 'react-bootstrap';
+import { Card, Form, Table } from 'react-bootstrap';
 import RegisterMasjid from '../Register/RegisterMasjid';
-import UpdateTimings from '../Register/UpdateTimings';
-import UpdateTimingsDD from '../Register/UpdateTimingsDD';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
 const MyMasajid = () => {
+    const [masjidData, setMasjidData] = useState([]);
+    const [userId, setUserId] = useState();
+
+    useEffect(() => {
+        const userData = JSON.parse(localStorage.getItem('userData')) || [];
+        setUserId(userData.user_id);
+
+        const fetchMasjid = async () => {
+            try {
+                const data = await axios.get(`http://localhost:4000/api/masjidsByIds/${userId}`);
+                const dataOfMasjid = data.data.data;
+                const timings = data.data.events;
+                const totalData = dataOfMasjid.map(masjid => {
+                    return {
+                        masjid: masjid,
+                        ...timings.find(event => event.timings[0].masjid_id === masjid.masjid_id)
+                    }
+                });
+
+                setMasjidData(totalData);
+            } catch (error) {
+                console.log(error.response);
+            }
+        }
+
+        fetchMasjid();
+    }, [userId]);
+
+    const handleEventTimeChange = (eventId, eventName, timeType, hour, minute, masjid_id) => {
+        const updateTimingsData = { eventId, eventName, timeType, hour, minute, masjid_id };
+
+        axios.put(`http://localhost:4000/api/masjidPrayerTimings`, { updateTimingsData })
+            .then(res => { })
+            .catch(err => { });
+    };
+
     const [showMasjidModal, setShowMasjidModal] = useState(false);
 
     const handleShowMasjidModal = () => {
@@ -16,102 +52,118 @@ const MyMasajid = () => {
         setShowMasjidModal(false);
     };
 
-    const UserCard = ({ masjid }) => (
+    const UserCard = ({ masjid, events }) => (
         <Card style={{ width: 'auto' }}>
             <Card.Body>
                 <Card.Title>
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <h2>{masjid.masjid_name}</h2>
-                        <h2><a className='log' variant="primary" onClick={handleShowMasjidModal}>
-                            Edit
-                        </a>
-                            {showMasjidModal && <UpdateTimings onHide={handleHideMasjidModal} masjidData={masjid} />}</h2>
-                    </div>
+                    <h2>{masjid.masjid_name}</h2>
                 </Card.Title>
                 <Table striped bordered hover>
                     <thead>
                         <tr>
                             <th>Namaz</th>
-                            <th>Fajr</th>
-                            <th>Zuhar</th>
-                            <th>Asar</th>
-                            <th>Maghrib</th>
-                            <th>Ishaan</th>
-                            <th>Juma</th>
+                            <th>Azaan</th>
+                            <th>Jamaat</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Azaan</td>
-                            <td><UpdateTimingsDD /></td>
-                            <td><UpdateTimingsDD /></td>
-                            <td><UpdateTimingsDD /></td>
-                            <td><UpdateTimingsDD /></td>
-                            <td><UpdateTimingsDD /></td>
-                            <td><UpdateTimingsDD /></td>
-                            {/* <td>05:40</td>
-                            <td>01:00</td>
-                            <td>04:45</td>
-                            <td>06:25</td>
-                            <td>07:45</td>
-                            <td>12:30</td> */}
-                        </tr>
-                        <tr>
-                            <td>Jamaat</td>
-                            <td><UpdateTimingsDD /></td>
-                            <td><UpdateTimingsDD /></td>
-                            <td><UpdateTimingsDD /></td>
-                            <td><UpdateTimingsDD /></td>
-                            <td><UpdateTimingsDD /></td>
-                            <td><UpdateTimingsDD /></td>
-                            {/* <td>06:10</td>
-                            <td>01:30</td>
-                            <td>05:00</td>
-                            <td>06:30</td>
-                            <td>08:00</td>
-                            <td>01:30</td> */}
-                        </tr>
+                    <tbody onSubmit={handleEventTimeChange}>
+                        {events.map((event) => (
+                            <tr key={event.prayer_id}>
+                                <th>{event.prayer_name}</th>
+                                <td>
+                                    <TimePicker
+                                        hour={event.azaan_time.split(":")[0]}
+                                        minute={event.azaan_time.split(":")[1]}
+                                        onChange={(hour, minute) => handleEventTimeChange(event.prayer_id, event.prayer_name, "azaan_time", hour, minute, masjid.masjid_id)}
+                                    />
+                                </td>
+                                <td>
+                                    <TimePicker
+                                        hour={event.jamaat_time.split(":")[0]}
+                                        minute={event.jamaat_time.split(":")[1]}
+                                        onChange={(hour, minute) => handleEventTimeChange(event.prayer_id, event.prayer_name, "jamaat_time", hour, minute, masjid.masjid_id)}
+                                    />
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </Table>
             </Card.Body>
         </Card>
     );
 
-    // const userData = JSON.parse(localStorage.getItem('userData')) || [];
-    const [masjidData, setMasjidData] = useState([]);
-    // const user_id = userData.user_id;
-
-    useEffect(() => {
-        const userData = JSON.parse(localStorage.getItem('userData')) || [];
-        const user_id = userData.user_id;
-
-        const fetchMasjid = async () => {
-            try {
-                const data = await axios.get(`http://localhost:4000/api/masjidsByIds/${user_id}`);
-                const dataOfMasjid = data.data.data
-
-                setMasjidData(dataOfMasjid);
-
-            } catch (error) {
-                console.log(error.response);
-            }
-        }
-
-        fetchMasjid();
-    }, []);
-
     return (
-        masjidData.length ? (
+        masjidData ? (
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                 {masjidData.map((masjid) => (
-                    <div style={{ margin: '10px' }} key={masjid.masjid_id}>
-                        <UserCard masjid={masjid} />
+                    <div style={{ margin: '10px' }} key={masjid.masjid.masjid_id}>
+                        <UserCard masjid={masjid.masjid} events={masjid.timings} />
                     </div>
                 ))}
             </div>) : (<div style={{ margin: '10px', padding: '100px', fontSize: '50px' }} key="user.id">
                 <p style={{ textAlign: 'center', cursor: 'pointer' }} onClick={handleShowMasjidModal}>Please add Masjid</p>
                 {showMasjidModal && <RegisterMasjid onHide={handleHideMasjidModal} />}
             </div>)
+    )
+}
+
+const TimePicker = (props) => {
+    const check = <FontAwesomeIcon icon={faCheck} />
+    const pen = <FontAwesomeIcon icon={faPenToSquare} />
+    const [selectedHour, setSelectedHour] = useState(props.hour);
+    const [selectedMinute, setSelectedMinute] = useState(props.minute);
+    const [updateMode, setUpdateMode] = useState(false);
+
+    const hours = Array.from(Array(24).keys()); // creates an array of hours from 0 to 23
+    const minutes = Array.from(Array(60).keys()); // creates an array of minutes from 0 to 59
+
+    const handleHourChange = (e) => {
+        e.target.value.length === 1 ? setSelectedHour('0' + e.target.value) : setSelectedHour(e.target.value)
+    };
+
+    const handleMinuteChange = (e) => {
+        e.target.value.length === 1 ? setSelectedMinute('0' + e.target.value) : setSelectedMinute(e.target.value)
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        handleUpdate();
+
+        if (updateMode) {
+            props.onChange(selectedHour, selectedMinute);
+        }
+    }
+
+    const handleUpdate = () => {
+        setUpdateMode(!updateMode);
+    }
+
+    return (
+        <Form onSubmit={handleSubmit}>
+            {updateMode ? (<><select id="hour" onChange={handleHourChange} value={selectedHour} style={{ width: '40px' }}>
+                <option value="">{selectedHour}</option>
+                {hours.map((hour) => (
+                    <option key={hour} value={hour}>
+                        {hour}
+                    </option>
+                ))}
+            </select><select id="minute" onChange={handleMinuteChange} value={selectedMinute} style={{ width: '40px' }} autoFocus>
+                    <option value="">{selectedMinute}</option>
+                    {minutes.map((minute) => (
+                        <option key={minute} value={minute}>
+                            {minute}
+                        </option>
+                    ))}
+                </select>
+                <button type="submit" style={{ color: "green" }} > {check}</button>
+            </>)
+                :
+                (<>
+                    {selectedHour}:{selectedMinute}{'     '}
+                    <button type="submit" style={{ color: "red" }}>{pen}</button>
+                </>)
+            }
+        </Form >
     )
 }
 

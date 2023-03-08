@@ -7,8 +7,8 @@ import './headers.css';
 const Headers = () => {
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [showMasjidModal, setShowMasjidModal] = useState(false);
-    let isAuthenticated = JSON.parse(localStorage.getItem('isAuthenticated'));
     const jwtToken = localStorage.getItem('jwtToken');
+    const userData = localStorage.getItem('userData');
 
     const handleShowLoginModal = () => {
         setShowLoginModal(true);
@@ -30,22 +30,21 @@ const Headers = () => {
         <nav>
             <Link to='/'>Home</Link>
             <Link to='/masajid'>Masajid</Link>
-            {jwtToken ?
+            {userData !== undefined && jwtToken ?
                 (<>
                     <Link to='/myMasajid'>My Masajid</Link>
                     <Link to='/profile/1'>My Profile</Link>
-                    <Link to='/eventTable'>Event Table</Link>
                     <>
-                        <a className='log' variant="primary" onClick={handleShowMasjidModal}>
+                        <Link className='log' variant="primary" onClick={handleShowMasjidModal}>
                             Add Masjid
-                        </a>
+                        </Link>
                         {showMasjidModal && <RegisterMasjid onHide={handleHideMasjidModal} />}
                     </>
 
                 </>) : (<>
-                    <a className='log' variant="primary" onClick={handleShowLoginModal}>
+                    <Link className='log' variant="primary" onClick={handleShowLoginModal}>
                         Login
-                    </a>
+                    </Link>
                     {showLoginModal && <LoginModal onHide={handleHideLoginModal} />}
                 </>)
             }

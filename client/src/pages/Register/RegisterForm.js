@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 import Select from 'react-select';
 import axios from 'axios';
 
@@ -143,9 +144,9 @@ function RegisterForm(props) {
             </Button>
             <p>
                 Don't have an account?{' '}
-                <a href="#" onClick={props.onHide}>
+                <Link onClick={props.onHide}>
                     Login
-                </a>
+                </Link>
             </p>
             <ToastContainer position='top-center' />
         </Form>

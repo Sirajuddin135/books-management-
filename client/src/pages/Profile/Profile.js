@@ -12,7 +12,8 @@ const Profile = ({ userData }) => {
     const calendar = <FontAwesomeIcon icon={faCalendarAlt} />
 
     const handleLogout = () => {
-        localStorage.removeItem('jwtToken');
+        // localStorage.removeItem('jwtToken');
+        localStorage.clear();
         window.location.href = '/';
     }
 
