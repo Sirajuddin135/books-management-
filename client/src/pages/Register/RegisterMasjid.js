@@ -1,10 +1,23 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 const RegisterMasjid = (props) => {
     const userData = JSON.parse(localStorage.getItem('userData')) || [];
+    const [image, setImage] = useState('');
+    const [preview, setPreview] = useState('');
+
+    // set image
+    const setImageData = (e) => {
+        setImage(e.target.files[0]);
+    }
+
+    useEffect(() => {
+        if (image) {
+            setPreview(URL.createObjectURL(image));
+        }
+    }, [image]);
 
     const [masjidData, setMasjidData] = useState({
         masjid_name: '',
@@ -15,7 +28,8 @@ const RegisterMasjid = (props) => {
         country: '',
         location: '',
         registered_date: '',
-        updated_date: ''
+        updated_date: '',
+        masjid_image: ''
     });
 
     // set masjid data
@@ -123,7 +137,19 @@ const RegisterMasjid = (props) => {
                         />
                     </Form.Group>
                     <Form.Group>
-
+                        <Form.Label>Area</Form.Label>
+                        <Form.Control
+                            type="file"
+                            id='masjid_image'
+                            name='masjid_image'
+                            value={masjidData.masjid_image}
+                            placeholder="Enter masjid image"
+                            onChange={setInputValue}
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3 col-lg-6" controlId="formBasicEmail">
+                        <Form.Label>Select Your Profile</Form.Label>
+                        <Form.Control type='file' name='user_profile' placeholder='Select Your Profile' onChange={setImageData} />
                     </Form.Group>
                     <Button variant="primary" type="submit" >
                         Add Masjid

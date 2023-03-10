@@ -31,7 +31,7 @@ const Masajid = () => {
             const totalData = dataOfMasjid.map(masjid => {
                 const current_date = new Date();
                 const updated_date = new Date(masjid.updated_date);
-                const color = Math.round((current_date - updated_date) / (1000 * 60 * 60 * 24)) < 30 ? 'green' : 'red';
+                const color = Math.round((current_date - updated_date) / (1000 * 60 * 60 * 24)) < 2 ? 'green' : 'red';
 
                 return {
                     masjid: masjid,
@@ -47,9 +47,10 @@ const Masajid = () => {
     }
 
     const submitSearch = async (event) => {
+        const input = event.target.innerText;
         setSearchData([]);
         setSearchKeyword('');
-        fetchMasjid(searchKeyword);
+        fetchMasjid(input);
     }
 
     const handleKeyDown = async (event) => {
@@ -82,6 +83,7 @@ const Masajid = () => {
                     <h4 style={{ display: 'flex', justifyContent: 'space-between' }}>
                         {masjid.masjid_name}
                         <a href={masjid.location} target={'_blank'} rel={"noreferrer"}>{location}</a>
+                        {/* <p>{masjid.masjid_name}</p> */}
                     </h4>
                 </Card.Title>
                 <Table striped bordered hover>
@@ -125,7 +127,7 @@ const Masajid = () => {
                     value={searchKeyword}
                     onChange={handleSearch}
                     onKeyDown={handleKeyDown} />
-                <div style={{ position: 'absolute', cursor: 'pointer' }}>
+                <div style={{ position: 'relative', cursor: 'pointer' }}>
                     {searchData.map((item, id) => (
                         <p key={id} onClick={submitSearch}>{item.area}</p>
                     ))}
