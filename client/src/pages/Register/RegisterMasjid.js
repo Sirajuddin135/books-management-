@@ -147,10 +147,10 @@ const RegisterMasjid = (props) => {
                             onChange={setInputValue}
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3 col-lg-6" controlId="formBasicEmail">
+                    {/* <Form.Group className="mb-3 col-lg-6" controlId="formBasicEmail">
                         <Form.Label>Select Your Profile</Form.Label>
                         <Form.Control type='file' name='user_profile' placeholder='Select Your Profile' onChange={setImageData} />
-                    </Form.Group>
+                    </Form.Group> */}
                     <Button variant="primary" type="submit" >
                         Add Masjid
                     </Button>
