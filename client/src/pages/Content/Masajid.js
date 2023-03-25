@@ -53,11 +53,11 @@ const Masajid = () => {
         fetchMasjid(input);
     }
 
-    const handleKeyDown = async (event) => {
-        if (event.key === 'Enter') {
-            submitSearch(event);
-        }
-    }
+    // const handleKeyDown = async (event) => {
+    //     if (event.key === 'Enter') {
+    //         submitSearch(event);
+    //     }
+    // }
 
     const handleSearch = async (event) => {
         const input = event.target.value;
@@ -125,8 +125,7 @@ const Masajid = () => {
                     id='searchBox'
                     placeholder="Enter area name"
                     value={searchKeyword}
-                    onChange={handleSearch}
-                    onKeyDown={handleKeyDown} />
+                    onChange={handleSearch} />
                 <div style={{ position: 'relative', cursor: 'pointer' }}>
                     {searchData.map((item, id) => (
                         <p key={id} onClick={submitSearch}>{item.area}</p>

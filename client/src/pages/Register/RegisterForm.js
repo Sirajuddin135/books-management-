@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
@@ -6,7 +6,8 @@ import Select from 'react-select';
 import axios from 'axios';
 
 function RegisterForm(props) {
-
+    const [image, setImage] = useState('');
+    const [preview, setPreview] = useState('');
     // role options
     const role_options = [
         { value: 'Imam', label: 'Imam' },
@@ -21,7 +22,8 @@ function RegisterForm(props) {
         mobile_number: '',
         location: '',
         password: '',
-        role: ''
+        role: '',
+        image: ''
     });
 
     // set user data
@@ -36,15 +38,15 @@ function RegisterForm(props) {
     }
 
     // set image
-    // const setImageData = async (e) => {
-    //     setImage(e.target.files[0]);
-    // }
+    const setImageData = async (e) => {
+        setImage(e.target.files[0]);
+    }
 
-    // useEffect(() => {
-    //     if (image) {
-    //         setPreview(URL.createObjectURL(image));
-    //     }
-    // }, [image]);
+    useEffect(() => {
+        if (image) {
+            setPreview(URL.createObjectURL(image));
+        }
+    }, [image]);
 
     const handleSubmit = (e) => {
         e.preventDefault();

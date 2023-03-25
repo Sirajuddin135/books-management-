@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import Row from 'react-bootstrap/esm/Row';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faEnvelope, faLocationDot, faMobile } from '@fortawesome/free-solid-svg-icons';
 import './profile.css';
 
-const Profile = ({ userData }) => {
+const Profile = () => {
+    const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('userData')) || []);
     const email = <FontAwesomeIcon icon={faEnvelope} />
     const mobile = <FontAwesomeIcon icon={faMobile} />
     const location = <FontAwesomeIcon icon={faLocationDot} />
