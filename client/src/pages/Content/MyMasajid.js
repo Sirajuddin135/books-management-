@@ -4,14 +4,17 @@ import { Card, Form, Table } from 'react-bootstrap';
 import RegisterMasjid from '../Register/RegisterMasjid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import jwt_decode from 'jwt-decode';
 
 const MyMasajid = () => {
     const [masjidData, setMasjidData] = useState([]);
     const [userId, setUserId] = useState();
 
     useEffect(() => {
-        const userData = JSON.parse(localStorage.getItem('userData')) || [];
-        setUserId(userData.user_id);
+        const jwtToken = JSON.parse(localStorage.getItem('jwtToken'));
+        const { user: [user] } = jwt_decode(jwtToken);
+        console.log(user)
+        setUserId(user.user_id);
 
         const fetchMasjid = async () => {
             try {

@@ -4,7 +4,7 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 const RegisterMasjid = (props) => {
-    const userData = JSON.parse(localStorage.getItem('userData')) || [];
+    const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('userData')) || []);
     const [image, setImage] = useState('');
     const [preview, setPreview] = useState('');
 
@@ -29,7 +29,8 @@ const RegisterMasjid = (props) => {
         location: '',
         registered_date: '',
         updated_date: '',
-        masjid_image: ''
+        masjid_image: '',
+        user_id: userData.user_id
     });
 
     // set masjid data

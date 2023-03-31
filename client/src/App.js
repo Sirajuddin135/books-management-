@@ -10,6 +10,7 @@ import { Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import MyMasajid from './pages/Content/MyMasajid';
+import jwt_decode from 'jwt-decode';
 
 function App() {
   const [userData, setUserData] = useState([]);
@@ -23,13 +24,17 @@ function App() {
         const { user } = data.data;
 
         setUserData(user[0]);
-        localStorage.setItem('userData', JSON.stringify(user[0]));
+        // localStorage.setItem('userData', JSON.stringify(user[0]));
       } catch (error) {
         console.log(error.response.data.error);
       }
     }
 
     if (jwtToken) {
+      const decoded = jwt_decode(jwtToken);
+      console.log(decoded)
+
+      console.log(jwtToken)
       fetchUser();
     }
 
@@ -44,7 +49,7 @@ function App() {
         <Route path='/myMasajid' element={<MyMasajid />} />
         <Route path='/masajid' element={<Masajid />} />
         <Route path='/edit/:id' element={<Edit />} />
-        <Route path='/profile/:id' element={<Profile userData={userData} />} />
+        <Route path='/profile/:id' element={<Profile />} />
       </Routes>
     </>
   );

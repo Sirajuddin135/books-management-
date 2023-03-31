@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import Row from 'react-bootstrap/esm/Row';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faEnvelope, faLocationDot, faMobile } from '@fortawesome/free-solid-svg-icons';
 import './profile.css';
+import jwt_decode from 'jwt-decode';
 
 const Profile = () => {
-    const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('userData')) || []);
     const email = <FontAwesomeIcon icon={faEnvelope} />
     const mobile = <FontAwesomeIcon icon={faMobile} />
     const location = <FontAwesomeIcon icon={faLocationDot} />
     const calendar = <FontAwesomeIcon icon={faCalendarAlt} />
+    const [userData, setUserData] = useState([]);
+
+    useEffect(() => {
+        const jwtToken = JSON.parse(localStorage.getItem('jwtToken'));
+        const { user: [user] } = jwt_decode(jwtToken);
+
+        setUserData(user);
+    }, []);
 
     const handleLogout = () => {
         // localStorage.removeItem('jwtToken');
