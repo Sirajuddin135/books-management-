@@ -2,6 +2,7 @@ nav {
     text-decoration: none;
     padding: 10px;
     display: flex;
+    justify-content: space-between;
     color: white;
     background-color: blue;
     font-size: 30px;
